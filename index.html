@@ -29,16 +29,6 @@
     <!--<script type="text/javascript" src="http://www.douchaoyang.com/public/core.lib.js" charset="utf-8"></script>-->
     <script type="text/javascript" src="core.lib.js" charset="utf-8"></script>
     <script type="text/javascript">
-        //var ward = [
-        //    { key: 0, name: "返现1%~2%", percent: 1 },
-        //    { key: 1, name: "返现3%~4%", percent: 1 },
-        //    { key: 2, name: "返现5%", percent: 1 },
-        //    { key: 3, name: "返现6%", percent: 1 },
-        //    { key: 4, name: "返现7%", percent: 1 },
-        //    { key: 5, name: "返现8%", percent: 1 },
-        //    { key: 6, name: "返现9%", percent: 1 },
-        //    { key: 7, name: "返现10%", percent: 1 },
-        //];
 
         var ward = [
             { key: 0, name: "返现1%~2%", percent: 1, value: 1 },  //10%
@@ -62,11 +52,11 @@
                 });
 
 
-                testPercent(10000, 7);
+                //testPercent(10000, 7);
 
 
                 g("begin").onclick = function () {
-                    var n = random(7);
+                    var n = random(7); //随机数 0-7
                     lottery.run(n + 1, function () {
 
                         var selectItem = ward[n];
@@ -85,8 +75,7 @@
         function testPercent(loopCount, maxValue) {
 
             var array = [];
-            //var loopCount = 10000;
-            //var maxValue = 7;
+
             for (var i = 0; i < loopCount; i++) {
 
                 var _key = random(7); //$.randomInt(7);  //概率平均
