@@ -1,0 +1,68 @@
+#lottery{width: 300px; height: 300px; overflow: hidden; font-size: 18px; margin: 20px auto 0;}
+#lottery table{width: 100%;height: 100%;}
+#lottery table td{width: 98px; height: 98px; border: 1px solid #fff; background-color: #333; color: #fff; text-align: center; overflow: hidden;}
+#lottery table td.lottery-light{background-color: #fff; color: #000;}
+#begin{display: block; width: 100%; line-height: 98px; color: #f1f1f1;}
+
+
+/*
+**@Author  douchaoyang
+*/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+body, button, input, select, textarea {
+    font-size: 12px;
+    font-family: "Microsoft Yahei",arial;
+    outline: none;
+}
+
+em, strong, th, i {
+    font-style: normal;
+    font-weight: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+ol, ul, li {
+    list-style: none;
+}
+
+fieldset, img {
+    border: 0;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    overflow: hidden;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.ib {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}

@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="lottery.css" />
+    <title>lottery</title>
+
+</head>
+<body>
+    <div id="lottery">
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="lottery-unit lottery-unit-1">返现1%~2%</td>
+                <td class="lottery-unit lottery-unit-2">返现3%~4%</td>
+                <td class="lottery-unit lottery-unit-3">返现5%~6%</td>
+            </tr>
+            <tr>
+                <td class="lottery-unit lottery-unit-8">返现7%~8%</td>
+                <td><a href="javascript:;" id="begin">开始</a></td>
+                <td class="lottery-unit lottery-unit-4">返现7%~8%</td>
+            </tr>
+            <tr>
+                <td class="lottery-unit lottery-unit-7">返现5%~6%</td>
+                <td class="lottery-unit lottery-unit-6">返现3%~4%</td>
+                <td class="lottery-unit lottery-unit-5">返现9%~10%</td>
+            </tr>
+        </table>
+    </div>
+    <!--<script type="text/javascript" src="http://www.douchaoyang.com/public/core.lib.js" charset="utf-8"></script>-->
+    <script type="text/javascript" src="core.lib.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        //var ward = [
+        //    { key: 0, name: "返现1%~2%", percent: 1 },
+        //    { key: 1, name: "返现3%~4%", percent: 1 },
+        //    { key: 2, name: "返现5%", percent: 1 },
+        //    { key: 3, name: "返现6%", percent: 1 },
+        //    { key: 4, name: "返现7%", percent: 1 },
+        //    { key: 5, name: "返现8%", percent: 1 },
+        //    { key: 6, name: "返现9%", percent: 1 },
+        //    { key: 7, name: "返现10%", percent: 1 },
+        //];
+
+        var ward = [
+            { key: 0, name: "返现1%~2%", percent: 1, value: 1 },  //10%
+            { key: 1, name: "返现3%~4%", percent: 1, value: 3 }, //20%
+            { key: 2, name: "返现5%~6%", percent: 2, value: 5 }, //40%
+            { key: 3, name: "返现7%~8%", percent: 1, value: 7 },  //20%
+            { key: 4, name: "返现9%~10%", percent: 1, value: 9 }, //10%
+            { key: 5, name: "返现3%~4%", percent: 1, value: 3 },
+            { key: 6, name: "返现5%~6%", percent: 2, value: 5 },
+            { key: 7, name: "返现7%~8%", percent: 1, value: 8 },
+        ];
+
+        (function ($) {
+            $.loadScript("plug.lottery.js", function () {
+
+                var lottery = new Lottery({
+                    prefix: "lottery-unit",//抽奖元素类名前缀 例如：class="lottery-unit lottery-unit-1"
+                    light: "lottery-light",//抽奖元素高亮样式类名
+                    loop: 8,//循环转圈的次数
+                    speed: 50 //初始滚动速度
+                });
+
+
+                testPercent(10000, 7);
+
+
+                g("begin").onclick = function () {
+                    var n = random(7);
+                    lottery.run(n + 1, function () {
+
+                        var selectItem = ward[n];
+                        var percentValues = selectItem.value;
+        
+                        if (Math.random() > 0.5) {
+                            percentValues = percentValues + 1;
+                        }
+         
+                        alert("恭喜您抽中了返现" + percentValues + "%！");
+                    });
+                }
+            });
+        })(core);
+
+        function testPercent(loopCount, maxValue) {
+
+            var array = [];
+            //var loopCount = 10000;
+            //var maxValue = 7;
+            for (var i = 0; i < loopCount; i++) {
+
+                var _key = random(7); //$.randomInt(7);  //概率平均
+
+                var item = ward[_key];
+                var _count = 1;
+                var _isExist = false;
+
+                array.forEach(s => {
+
+                    if (s.key == item.name) {
+                        s.count = s.count + 1;
+                        _isExist = true;
+                    }
+
+                });
+
+                if (_isExist == false)
+                    array.push({ key: item.name, count: _count });
+
+            }
+
+            array.forEach(a => {
+                //console.log(a);
+                console.log("key:" + a.key + ",count:" + a.count, ",percent:" + (a.count / loopCount) * 100 + "%");
+            });
+        }
+
+        function random(maxValue) {
+
+            var result = weight_rand(ward);
+            return result;
+        }
+
+        function weight_rand(arr) {
+
+            var total = 0;
+            var i, j, percent;
+
+            var index = new Array();
+            for (i = 0; i < arr.length; i++) {
+                //判断元素的权重，为了实现小数权重，先将所有的值放大100倍
+                percent = 'undefined' != typeof (arr[i].percent) ? parseInt(arr[i].percent * 100) : 0;
+                for (j = 0; j < percent; j++) {
+                    index.push(i);
+                }
+                total += percent;
+            }
+
+            var rand = Math.floor(Math.random() * total);
+            return arr[index[rand]].key;
+        }
+
+
+
+    </script>
+</body>
+</html>
