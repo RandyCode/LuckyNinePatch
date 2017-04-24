@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="lottery.css" />
+    <title>幸运大抽奖</title>
+    <style type="text/css">
+        .background {
+            background-size: cover;
+            width: 100%;
+            height: 90%;
+            position: absolute;
+            margin: auto 0;
+        }
+
+        h1 {
+            font-size: 20px;
+        }
+
+        h2 {
+            font-size: 16px;
+        }
+
+        .modal-body {
+            min-height: 80px;
+        }
+
+        .modal.in .modal-dialog {
+            -webkit-transform: translate(0,-50%);
+            -ms-transform: translate(0,-50%);
+            -o-transform: translate(0,-50%);
+            transform: translate(0,-50%)
+        }
+        .modal-dialog {
+            position: absolute;
+            width: auto 0;
+            margin: 10px auto;
+            left: 0;
+            right: 0;
+            top: 50%
+        }
+  
+    </style>
+</head>
+
+<body>
+
+    <div id="Layer1" style="position:absolute; width:100%; height:100%; z-index:-1">
+        <img src="20170424233410.png" height="100%" width="100%" />
+    </div>
+
+    <div class="background">
+
+        <div id="lottery">
+            <table cellpadding="0" cellspacing="0">
+
+                <tr>
+                    <td class="lottery-unit lottery-unit-1"><span>返现1%</span></td>
+                    <td class="lottery-unit lottery-unit-2">返现2%</td>
+                    <td class="lottery-unit lottery-unit-3">返现3%</td>
+                    <td class="lottery-unit lottery-unit-4">返现4%</td>
+                </tr>
+                <tr>
+                    <td class="lottery-unit lottery-unit-10">返现10%</td>
+                    <td colspan="2"><a href="javascript:;" style="text-decoration:none" id="begin">全城刮分</a></td>
+                    <td class="lottery-unit lottery-unit-5">返现5%</td>
+                </tr>
+                <tr>
+                    <td class="lottery-unit lottery-unit-9">返现9%</td>
+                    <td class="lottery-unit lottery-unit-8">返现8%</td>
+                    <td class="lottery-unit lottery-unit-7">返现7%</td>
+                    <td class="lottery-unit lottery-unit-6">返现6%</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h1 class="modal-title"> 恭喜！！</h1>
+                </div>
+                <div class="modal-body">
+                    <p><h2 id="msg"></h2></p>
+                </div>
+            </div>--><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="core.lib.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var ward = [{
+            key: 0,
+            name: "返现1%~2%",
+            percent: 1,
+            value: 1
+        }, //10%
+        {
+            key: 1,
+            name: "返现3%~4%",
+            percent: 1,
+            value: 3
+        }, //20%
+        {
+            key: 2,
+            name: "返现5%~6%",
+            percent: 2,
+            value: 5
+        }, //40%
+        {
+            key: 3,
+            name: "返现7%~8%",
+            percent: 1,
+            value: 7
+        }, //20%
+        {
+            key: 4,
+            name: "返现9%~10%",
+            percent: 1,
+            value: 9
+        }, //10%
+        {
+            key: 5,
+            name: "返现3%~4%",
+            percent: 1,
+            value: 3
+        }, {
+            key: 6,
+            name: "返现5%~6%",
+            percent: 2,
+            value: 5
+        }, {
+            key: 7,
+            name: "返现7%~8%",
+            percent: 1,
+            value: 8
+        },
+        ];
+      
+        (function ($) {
+            $.loadScript("plug.lottery.js", function () {
+
+                var lottery = new Lottery({
+                    prefix: "lottery-unit", //抽奖元素类名前缀 例如：class="lottery-unit lottery-unit-1"
+                    light: "lottery-light", //抽奖元素高亮样式类名
+                    loop: 8, //循环转圈的次数
+                    speed: 50 //初始滚动速度
+                });
+
+
+                //testPercent(10000, 7);
+
+
+                g("begin").onclick = function () {
+                    var n = random(7); //随机数 0-7
+                    lottery.run(n + 1, function () {
+
+                        var selectItem = ward[n];
+                        var percentValues = selectItem.value;
+
+                        if (Math.random() > 0.5) {
+                            percentValues = percentValues + 1;
+                        }
+
+                        open("恭喜您抽中了返现" + percentValues + "%！");
+                        //alert("恭喜您抽中了返现" + percentValues + "%！");
+                    });
+                }
+            });
+        })(core);
+
+        function testPercent(loopCount, maxValue) {
+
+            var array = [];
+
+            for (var i = 0; i < loopCount; i++) {
+
+                var _key = random(7); //$.randomInt(7);  //概率平均
+
+                var item = ward[_key];
+                var _count = 1;
+                var _isExist = false;
+
+                array.forEach(s => {
+
+                    if (s.key == item.name) {
+                        s.count = s.count + 1;
+                        _isExist = true;
+                    }
+
+                });
+
+                if (_isExist == false)
+                    array.push({
+                        key: item.name,
+                        count: _count
+                    });
+
+            }
+
+            array.forEach(a => {
+                //console.log(a);
+                console.log("key:" + a.key + ",count:" + a.count, ",percent:" + (a.count / loopCount) * 100 + "%");
+            });
+        }
+
+        function random(maxValue) {
+
+            var result = weight_rand(ward);
+            return result;
+        }
+
+        function weight_rand(arr) {
+
+            var total = 0;
+            var i, j, percent;
+
+            var index = new Array();
+            for (i = 0; i < arr.length; i++) {
+                //判断元素的权重，为了实现小数权重，先将所有的值放大100倍
+                percent = 'undefined' != typeof (arr[i].percent) ? parseInt(arr[i].percent * 100) : 0;
+                for (j = 0; j < percent; j++) {
+                    index.push(i);
+                }
+                total += percent;
+            }
+
+            var rand = Math.floor(Math.random() * total);
+            return arr[index[rand]].key;
+        }
+
+        function open(msg) {
+
+            $("#msg").text(msg);
+
+            $('#myModal').modal({
+                keyboard: false
+            });
+        }
+
+    </script>
+</body>
+
+</html>
